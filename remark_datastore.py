@@ -2,6 +2,7 @@
 from datetime import datetime
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
+import random
 
 
 _LAST_GET_KEY_PREFIX = 'lastget'
@@ -33,9 +34,10 @@ def ReadRemarks(user_id):
   # were posted. Return the results as a list of tuples with (user, text, color).
   remarks = []
   query = Remark.query(Remark.timestamp >= start_time).order(Remark.timestamp)
+  colors= ['black', 'red', 'green', 'blue', 'yellow']
   for remark in query.fetch():
-    # TODO(cssi-cam-2015) Randomize the color so that each remark is different.
-    remarks.append((remark.user, remark.text, 'black'))
+    #TODO(cssi-cam-2015) Randomize the color so that each remark is different.
+    remarks.append((remark.user, remark.text, colors[random.randint(0, 4)]))
 
   return remarks
 
